@@ -12,8 +12,7 @@ $toNumber = $Request.Query.toNumber;
 $msgText = $Request.Query.msgText;
 
 $phoneNumberLength = 10;
-$keyVaultName = $env:keyVaultName;
-$TWILIO_NUMBER =$env:TWILIO_NUMBER;
+$TWILIO_NUMBER = $env:TWILIO_NUMBER;
 $TWILIO_ACCOUNT_SID = $env:TWILIO_ACCOUNT_SID;
 $TWILIO_AUTH_TOKEN = $env:TWILIO_AUTH_TOKEN;
 
@@ -43,7 +42,14 @@ if ($msgText.Length -eq 0)
 
 if ($toNumber.Length -eq $phoneNumberLength) 
 {
-    $toNumber = "+1" + $toNumber;
+    if ($toNumber -eq "defaultnum")
+    {
+        $toNumber = $env:jcPhone1;
+    }
+    else
+    {
+        $toNumber = "+1" + $toNumber;
+    }
 }
 else 
 {
@@ -87,12 +93,12 @@ catch
 
 $body = "Message sent - UTC: " + [datetime]::Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss");
 Write-Host($body);
-
-# Associate values to output bindings by calling 'Push-OutputBinding'.
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = [HttpStatusCode]::OK
     Body = $body
 })
 
+
+$pstTime = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Pacific Standard Time').ToString("yyyy-MM-dd HH:mm:ss.fff");
 Write-Host("$funcName run.ps1 completed at PST TIME: $pstTime.");
 
