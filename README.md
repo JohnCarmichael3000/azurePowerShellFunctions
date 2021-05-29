@@ -10,7 +10,7 @@ Some tips:
 - Select the options: Publish to Code, PowerShell Core runtime stack.
 - On the "Hosting" tab you can see the default plan is the "Consumption" Plan where your function app is only charged based on actual use.
 - Wait for your deployment to complete. Waiting... Waiting. Done. Go to the new Resource.
-- Add a function to your function app by selecting "Functions" on the left menu. Then the "+ Add" and for simplicity at this point select a "Develop in Portal". Functions can be developed on your deskop with more steps.
+- Add a function to your function app by selecting "Functions" on the left menu. Then the "+ Add" and for simplicity at this point select a "Develop in Portal". Functions can be developed on your desktop with additional steps.
 - Select the function type "HTTP trigger" meaning the function can be called on demand by an incoming HTTP request.
 - Open the new function and select "Code + Test".
 - The sample code can be replaced or modified with the code in this repo.
