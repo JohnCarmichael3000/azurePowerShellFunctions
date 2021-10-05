@@ -42,14 +42,14 @@ if ($msgText.Length -eq 0)
 
 if ($toNumber.Length -eq $phoneNumberLength) 
 {
-    if ($toNumber -eq "defaultnum")
-    {
+    #if ($toNumber -eq "defaultnum")
+    #{
         $toNumber = $env:jcPhone1;
-    }
-    else
-    {
-        $toNumber = "+1" + $toNumber;
-    }
+    #}
+    #else
+    #{
+    #    $toNumber = "+1" + $toNumber;
+    #}
 }
 else 
 {
@@ -63,6 +63,7 @@ else
     return $null;
 }
 
+$msgText = "PST: " + [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Pacific Standard Time').ToString("yyyy-MM-dd HH:mm:ss") + "`r`n" + $msgText;
 $url = "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_ACCOUNT_SID/Messages.json";
 $params = @{ To = $toNumber; From = $TWILIO_NUMBER; Body = $msgText };
 
@@ -75,6 +76,9 @@ try
     # Make API request, selecting JSON properties from response
     Invoke-WebRequest $url -Method Post -Credential $credential -Body $params -UseBasicParsing  |
     ConvertFrom-Json | Select-Object sid, body;
+    Write-Host("Sent from Twilio phone number: $TWILIO_NUMBER");
+    Write-Host("Sent to phone number: $toNumber");
+    Write-Host("Message text: $msgText");
 }
 catch
 {
